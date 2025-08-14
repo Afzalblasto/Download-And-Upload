@@ -3,7 +3,7 @@ const SUPABASE_URL = "https://qyjkopxlipnigcpojczq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_rIz5MuuqzXdOeYcvhMXt1w_9r6-si9B";
 const BUCKET_NAME = "user-files";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
+ 
 // Elements
 const pwInput = document.getElementById("pw");
 const pwBtn = document.getElementById("pwBtn");
