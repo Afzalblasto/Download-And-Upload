@@ -1,0 +1,134 @@
+/* Background + Grid overlay */
+body {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  background: radial-gradient(ellipse at center, #001018 0%, #000 100%);
+  color: #e8f7ff;
+  overflow-x: hidden;
+}
+.grid-overlay::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(transparent 31px, #00e5ff10 32px) repeat,
+              linear-gradient(90deg, transparent 31px, #00e5ff10 32px) repeat;
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+/* Loader */
+#loader {
+  position: fixed; inset: 0; background-color: black;
+  display: flex; justify-content: center; align-items: center;
+  z-index: 99999;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.lightning {
+  stroke: yellow;
+  filter: drop-shadow(0 0 4px yellow) drop-shadow(0 0 10px yellow);
+  animation: glowPulse 1.2s ease-in-out infinite, shake 0.4s ease-in-out infinite alternate;
+}
+@keyframes glowPulse {
+  0%, 100% { stroke: yellow; }
+  50% { stroke: black; filter: drop-shadow(0 0 8px black); }
+}
+@keyframes shake { 0% { transform: translateY(0); } 100% { transform: translateY(-2px); } }
+
+/* Header */
+header { text-align: center; padding: 40px 0 20px; }
+.title { font-size: 2rem; color: white; text-shadow: 0 0 10px #00e5ff; }
+.title-wrap { display: flex; align-items: center; justify-content: center; gap: 20px; }
+
+/* Tracing loops beside the title */
+.trace-loop {
+  width: 50px;
+  height: 50px;
+  stroke: #00e5ff;
+  stroke-width: 3;
+  fill: none;
+  stroke-dasharray: 176;
+  stroke-dashoffset: 176;
+  animation: traceLoop 3s linear infinite;
+}
+.trace-loop circle {
+  stroke: #00e5ff;
+  filter: drop-shadow(0 0 6px #00e5ff);
+}
+@keyframes traceLoop {
+  0% { stroke-dashoffset: 176; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* Panel with slim cyan grid */
+.panel {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(0, 10, 20, 0.85);
+  border: 2px solid #00e5ff;
+  border-radius: 14px;
+  box-shadow: 0 0 20px #00e5ff;
+  overflow: hidden;
+}
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(transparent 29px, rgba(0,229,255,0.1) 30px),
+    linear-gradient(90deg, transparent 29px, rgba(0,229,255,0.1) 30px);
+  background-size: 30px 30px;
+  z-index: 0;
+}
+.panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+h2 { text-align: center; color: #aef; }
+p { text-align: center; color: #9cf; }
+
+/* Inputs + Buttons */
+input[type="password"] {
+  width: 100%; padding: 12px;
+  border-radius: 10px; border: none;
+  background: rgba(0, 20, 40, 0.9);
+  color: #fff;
+  font-size: 1rem;
+  box-shadow: inset 0 0 8px #00e5ff;
+}
+.btn {
+  padding: 12px 18px; margin-top: 8px;
+  background: transparent;
+  border: 2px solid #00e5ff;
+  border-radius: 10px;
+  color: #fff; cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.btn-primary {
+  background: #00e5ff;
+  color: black;
+}
+.btn:hover {
+  box-shadow: 0 0 10px #00e5ff;
+}
+
+/* Upload/Download Panels */
+.io {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid #00e5ff;
+  border-radius: 10px;
+  background: rgba(0, 20, 40, 0.5);
+}
+.file-list { margin-top: 10px; color: #fff; }
+
+/* Footer */
+footer {
+  margin-top: 30px; padding: 10px;
+  text-align: center; color: #7ee9ff;
+}
+.ok { color: #19ffb4; }
+.bad { color: #ff5b5b; }

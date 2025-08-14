@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BLASTER⚡ – Secure Transfer</title>
+  <meta name="color-scheme" content="dark">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="grid-overlay">
+
+<!-- Loader -->
+<div id="loader">
+  <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 0 L20 80 H45 L35 150 L80 60 H55 L65 0 Z"
+      fill="none" stroke="grey" stroke-width="6" stroke-linejoin="round" />
+    <path class="lightning" d="M50 0 L20 80 H45 L35 150 L80 60 H55 L65 0 Z"
+      fill="none" stroke="yellow" stroke-width="6" stroke-linejoin="round" />
+  </svg>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="title-wrap">
+    <!-- Left animation -->
+    <svg 
+      class="loop-container" 
+      viewBox="0 0 40 40" 
+      height="40" 
+      width="40" 
+      preserveAspectRatio="xMidYMid meet">
+      <path 
+        class="track" 
+        fill="none" 
+        stroke-width="4" 
+        pathLength="100" 
+        d="M29.76 18.72c0 7.28-3.92 13.6-9.84 16.96-2.88 1.68-6.24 2.64-9.84 2.64s-6.88-.96-9.76-2.64c0-7.28 3.92-13.52 9.84-16.96 2.88-1.68 6.24-2.64 9.76-2.64s7.12.96 9.84 2.64c5.84 3.36 9.76 9.68 9.84 16.96-2.88 1.68-6.24 2.64-9.76 2.64s-6.88-.96-9.84-2.64c-5.84-3.36-9.76-9.68-9.76-16.96 0-7.28 3.92-13.6 9.76-16.96C25.84 5.12 29.76 11.44 29.76 18.72z">
+      </path>
+      <path 
+        class="car" 
+        fill="none" 
+        stroke-width="4" 
+        pathLength="100" 
+        d="M29.76 18.72c0 7.28-3.92 13.6-9.84 16.96-2.88 1.68-6.24 2.64-9.84 2.64s-6.88-.96-9.76-2.64c0-7.28 3.92-13.52 9.84-16.96 2.88-1.68 6.24-2.64 9.76-2.64s7.12.96 9.84 2.64c5.84 3.36 9.76 9.68 9.84 16.96-2.88 1.68-6.24 2.64-9.76 2.64s-6.88-.96-9.84-2.64c-5.84-3.36-9.76-9.68-9.76-16.96 0-7.28 3.92-13.6 9.76-16.96C25.84 5.12 29.76 11.44 29.76 18.72z">
+      </path>
+    </svg>
+
+    <h1 class="title">BLASTER⚡ </h1>
+
+    <!-- Right animation -->
+    <svg 
+      class="loop-container" 
+      viewBox="0 0 40 40" 
+      height="40" 
+      width="40" 
+      preserveAspectRatio="xMidYMid meet">
+      <path 
+        class="track" 
+        fill="none" 
+        stroke-width="4" 
+        pathLength="100" 
+        d="M29.76 18.72c0 7.28-3.92 13.6-9.84 16.96-2.88 1.68-6.24 2.64-9.84 2.64s-6.88-.96-9.76-2.64c0-7.28 3.92-13.52 9.84-16.96 2.88-1.68 6.24-2.64 9.76-2.64s7.12.96 9.84 2.64c5.84 3.36 9.76 9.68 9.84 16.96-2.88 1.68-6.24 2.64-9.76 2.64s-6.88-.96-9.84-2.64c-5.84-3.36-9.76-9.68-9.76-16.96 0-7.28 3.92-13.6 9.76-16.96C25.84 5.12 29.76 11.44 29.76 18.72z">
+      </path>
+      <path 
+        class="car" 
+        fill="none" 
+        stroke-width="4" 
+        pathLength="100" 
+        d="M29.76 18.72c0 7.28-3.92 13.6-9.84 16.96-2.88 1.68-6.24 2.64-9.84 2.64s-6.88-.96-9.76-2.64c0-7.28 3.92-13.52 9.84-16.96 2.88-1.68 6.24-2.64 9.76-2.64s7.12.96 9.84 2.64c5.84 3.36 9.76 9.68 9.84 16.96-2.88 1.68-6.24 2.64-9.76 2.64s-6.88-.96-9.84-2.64c-5.84-3.36-9.76-9.68-9.76-16.96 0-7.28 3.92-13.6 9.76-16.96C25.84 5.12 29.76 11.44 29.76 18.72z">
+      </path>
+    </svg>
+  </div>
+</header>
+
+<!-- Panel -->
+<main class="panel" id="panel">
+  <div class="gate" id="gate">
+    <h2>Encrypted Access Required</h2>
+    <p>Enter the secret🔑, and unlock transfers🔓.</p>
+    <div class="row">
+      <input id="pw" type="password" placeholder="Enter access password…" />
+      <button class="btn btn-primary" id="pwBtn">VERIFY PASSWORD 🔐</button>
+    </div>
+    <div id="message" class="message"></div>
+    <div class="divider"></div>
+    <div class="actions" id="actions">
+      <button class="btn" id="btnUpload">UPLOAD ⬆️</button>
+      <button class="btn" id="btnDownload">DOWNLOAD ⬇️</button>
+    </div>
+    <div class="io-grid" id="ioGrid" style="display:none;">
+      <section class="io" id="upBox">
+        <h3>Upload files</h3>
+        <input id="fileInput" type="file" multiple hidden />
+        <div class="row">
+          <button class="btn" id="chooseFiles">CHOOSE FILES</button>
+          <button class="btn btn-primary" id="startUpload">START UPLOAD</button>
+        </div>
+        <ol class="file-list" id="fileList"></ol>
+      </section>
+      <section class="io" id="downBox">
+        <h3>Download files</h3>
+        <div id="downloadList" class="file-list"><em>No files listed yet.</em></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Transfer shell · Built by <strong>AFZAL⚡BLASTO</strong>
+</footer>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+</body>
+</html>
