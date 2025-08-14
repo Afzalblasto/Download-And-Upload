@@ -124,13 +124,8 @@ function showTronModal(message) {
 }
 
 // Load files initially
-loadFiles();
-window.addEventListener("load", () => {
-  const loader = document.getElementById("loader");
-  loader.style.opacity = "0";
-  loader.style.visibility = "hidden";
-});
 // Wait for page load
+loadFiles();
 window.addEventListener("load", () => {
   setTimeout(() => {
     const loader = document.getElementById("loader");
