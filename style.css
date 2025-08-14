@@ -37,7 +37,7 @@ body {
 /* Header */
 header { text-align: center; padding: 40px 0 20px; }
 .title { font-size: 2rem; color: white; text-shadow: 0 0 10px #00e5ff; }
-.title-wrap { display: flex; align-items: center; justify-content: center; gap: 20px; }
+.title-wrap { display: flex; align-items: center; justify-content: center; gap: 50px; }
 
 /* Loop container animations */
 .loop-container {
@@ -49,7 +49,7 @@ header { text-align: center; padding: 40px 0 20px; }
 .car {
   stroke: #00e5ff;
   filter: drop-shadow(0 0 6px #00e5ff) drop-shadow(0 0 12px #00e5ff);
-  stroke-dasharray: 100;
+  stroke-dasharray: 25;
   stroke-dashoffset: 100;
   animation: moveCar 3s linear infinite, carGlow 1.5s ease-in-out infinite alternate;
 }
