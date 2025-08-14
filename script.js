@@ -21,11 +21,11 @@ const ACCESS_PASSWORD = "ICHIGODUZUMAKI"; // Change this to your own secret
 
 pwBtn.addEventListener("click", () => {
   if (pwInput.value === ACCESS_PASSWORD) {
-    message.textContent = "Access Granted✅.";
+    message.textContent = "Access Granted✅🗿.";
     message.className = "ok";
     ioGrid.style.display = "block";
   } else {
-    message.textContent = "Access Denied❌.";
+    message.textContent = "Access Denied❌🤡.";
     message.className = "bad";
     ioGrid.style.display = "none";
   }
@@ -127,9 +127,15 @@ function showTronModal(message) {
 // Wait for page load
 loadFiles();
 window.addEventListener("load", () => {
+  const loader = document.getElementById("loader");
+
+  // Ensure loader is fully visible first
+  loader.style.opacity = "1";
+  loader.style.visibility = "visible";
+
+  // Now wait full 5 seconds before hiding
   setTimeout(() => {
-    const loader = document.getElementById("loader");
     loader.style.opacity = "0";
     loader.style.visibility = "hidden";
-  }, 5000); // 5000ms = 5 seconds
+  }, 5000);
 });
