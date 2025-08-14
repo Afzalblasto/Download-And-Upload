@@ -17,7 +17,7 @@ const fileList = document.getElementById("fileList");
 const downloadList = document.getElementById("downloadList");
 
 // Password protection (simple example)
-const ACCESS_PASSWORD = "1234"; // Change this to your own secret
+const ACCESS_PASSWORD = "ICHIGODUZUMAKI"; // Change this to your own secret
 
 pwBtn.addEventListener("click", () => {
   if (pwInput.value === ACCESS_PASSWORD) {
