@@ -120,7 +120,7 @@ function showTronModal(message) {
   modal.className = "tron-modal";
   modal.textContent = message;
   document.body.appendChild(modal);
-  setTimeout(() => modal.remove(), 5000);
+  setTimeout(() => modal.remove(), 2000);
 }
 
 // Load files initially
