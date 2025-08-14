@@ -51,10 +51,11 @@ startUpload.addEventListener("click", async () => {
   for (const file of fileInput.files) {
     const { error } = await supabaseClient.storage
       .from(BUCKET_NAME)
-      .upload(`${Date.now()}_${file.name}`, file, {
-        cacheControl: "3600",
-        upsert: false
-      });
+      .upload(file.name, file, {
+  cacheControl: "3600",
+  upsert: false
+});
+      
 
     if (error) {
       console.error(error);
