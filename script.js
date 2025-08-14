@@ -21,11 +21,11 @@ const ACCESS_PASSWORD = "ICHIGODUZUMAKI"; // Change this to your own secret
 
 pwBtn.addEventListener("click", () => {
   if (pwInput.value === ACCESS_PASSWORD) {
-    message.textContent = "Access granted.";
+    message.textContent = "Access Granted✅.";
     message.className = "ok";
     ioGrid.style.display = "block";
   } else {
-    message.textContent = "Access denied.";
+    message.textContent = "Access Denied❌.";
     message.className = "bad";
     ioGrid.style.display = "none";
   }
@@ -129,4 +129,12 @@ window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
   loader.style.opacity = "0";
   loader.style.visibility = "hidden";
+});
+// Wait for page load
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const loader = document.getElementById("loader");
+    loader.style.opacity = "0";
+    loader.style.visibility = "hidden";
+  }, 5000); // 5000ms = 5 seconds
 });
