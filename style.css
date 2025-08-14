@@ -136,3 +136,38 @@ footer {
 }
 .ok { color: #19ffb4; }
 .bad { color: #ff5b5b; }
+/* Tron Style Modal */
+.tron-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 10, 20, 0.95);
+  border: 2px solid #00e5ff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #00e5ff, inset 0 0 10px #00e5ff;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #00e5ff;
+  z-index: 10000;
+  animation: tronPopup 0.3s ease-out;
+}
+@keyframes tronPopup {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+.tron-modal button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 2px solid #00e5ff;
+  color: #00e5ff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+.tron-modal button:hover {
+  background: #00e5ff;
+  color: black;
+}
