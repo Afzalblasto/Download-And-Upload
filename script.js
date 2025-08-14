@@ -69,9 +69,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const { error } = await supabaseClient.storage.from(BUCKET_NAME).upload(file.name, file, { cacheControl: '3600', upsert: false });
       if (error) alert(`Error uploading ${file.name}: ${error.message}`);
     }
-    alert("Upload complete!");
+    showTronModal("Files uploaded!");
     listFiles();
   });
+  function showTronModal(message) {
+  // Create modal
+  const modal = document.createElement("div");
+  modal.className = "tron-modal";
+  modal.innerHTML = `
+    <div>${message}</div>
+    <button onclick="this.parentElement.remove()">OK</button>
+  `;
+  document.body.appendChild(modal);
+  }
 
   async function listFiles(){
     const { data, error } = await supabaseClient.storage.from(BUCKET_NAME).list();
