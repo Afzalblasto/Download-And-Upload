@@ -47,7 +47,16 @@ fileInput.addEventListener("change", () => {
 // Upload files to Supabase
 startUpload.addEventListener("click", async () => {
   if (!fileInput.files.length) return showTronModal("No files selected!");
+// Max file size in bytes (50 MB)
+const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
+// Check file sizes before uploading
+for (const file of fileInput.files) {
+  if (file.size > MAX_FILE_SIZE) {
+    showTronModal(`"${file.name}" exceeds 50 MB limit!⚠️`);
+    return; // stop upload entirely
+  }
+}
   for (const file of fileInput.files) {
     const { error } = await supabaseClient.storage
       .from(BUCKET_NAME)
