@@ -3,12 +3,11 @@ const SUPABASE_URL = "https://qyjkopxlipnigcpojczq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_rIz5MuuqzXdOeYcvhMXt1w_9r6-si9B";
 const BUCKET_NAME = "user-files";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
- 
+
 // Elements
 const pwInput = document.getElementById("pw");
 const pwBtn = document.getElementById("pwBtn");
 const message = document.getElementById("message");
-const actions = document.getElementById("actions");
 const ioGrid = document.getElementById("ioGrid");
 const chooseFiles = document.getElementById("chooseFiles");
 const startUpload = document.getElementById("startUpload");
@@ -44,35 +43,81 @@ fileInput.addEventListener("change", () => {
   });
 });
 
-// Upload files to Supabase
+// Upload files to Supabase with progress bar
 startUpload.addEventListener("click", async () => {
-  if (!fileInput.files.length) return showTronModal("No files selected!");
-// Max file size in bytes (50 MB)
-const MAX_FILE_SIZE = 50 * 1024 * 1024;
+  if (!fileInput.files.length) return showTronModal("No files selected!⚠️");
 
-// Check file sizes before uploading
-for (const file of fileInput.files) {
-  if (file.size > MAX_FILE_SIZE) {
-    showTronModal(`"${file.name}" exceeds 50 MB limit!⚠️`);
-    return; // stop upload entirely
-  }
-}
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+
+  // Check file sizes
   for (const file of fileInput.files) {
-    const { error } = await supabaseClient.storage
-      .from(BUCKET_NAME)
-      .upload(file.name, file, {
-  cacheControl: "3600",
-  upsert: false
-});
-      
-
-    if (error) {
-      console.error(error);
-      return showTronModal("Upload failed!");
+    if (file.size > MAX_FILE_SIZE) {
+      showTronModal(`"${file.name}" exceeds 50 MB limit!⚠️`);
+      return;
     }
   }
 
-  showTronModal("Files uploaded!");
+  // Create progress container
+  const progressContainer = document.createElement("div");
+  progressContainer.style.position = "fixed";
+  progressContainer.style.top = "50%";
+  progressContainer.style.left = "50%";
+  progressContainer.style.transform = "translate(-50%, -50%)";
+  progressContainer.style.width = "80%";
+  progressContainer.style.height = "20px";
+  progressContainer.style.background = "rgba(0,0,0,0.5)";
+  progressContainer.style.border = "2px solid cyan";
+  progressContainer.style.borderRadius = "10px";
+  progressContainer.style.overflow = "hidden";
+  progressContainer.style.zIndex = "9999";
+
+  const progressFill = document.createElement("div");
+  progressFill.style.height = "100%";
+  progressFill.style.width = "0%";
+  progressFill.style.background = "cyan";
+  progressContainer.appendChild(progressFill);
+  document.body.appendChild(progressContainer);
+
+  let uploadedFiles = 0;
+  for (const file of fileInput.files) {
+    // Convert file to Blob for tracking progress
+    await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.upload.onprogress = function (event) {
+        if (event.lengthComputable) {
+          const percent = ((uploadedFiles + event.loaded / event.total) / fileInput.files.length) * 100;
+          progressFill.style.width = percent + "%";
+        }
+      };
+
+      xhr.onload = async function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+          uploadedFiles++;
+          resolve();
+        } else {
+          reject(new Error("Upload failed⚠️"));
+        }
+      };
+
+      xhr.onerror = () => reject(new Error("Upload error⚠️"));
+
+      // Prepare request to Supabase
+      const formData = new FormData();
+      formData.append("cacheControl", "3600");
+      formData.append("file", file);
+
+      xhr.open("POST", `${SUPABASE_URL}/storage/v1/object/${BUCKET_NAME}/${Date.now()}_${file.name}`);
+      xhr.setRequestHeader("apikey", SUPABASE_KEY);
+      xhr.setRequestHeader("Authorization", `Bearer ${SUPABASE_KEY}`);
+      xhr.send(formData);
+    }).catch(err => {
+      console.error(err);
+      showTronModal("Upload failed!⚠️");
+    });
+  }
+
+  document.body.removeChild(progressContainer);
+  showTronModal("Files uploaded!🌌");
   fileInput.value = "";
   fileList.innerHTML = "";
   loadFiles();
@@ -103,13 +148,10 @@ async function loadFiles() {
 
 // Download file
 async function downloadFile(fileName) {
-  const { data, error } = await supabaseClient.storage
-    .from(BUCKET_NAME)
-    .download(fileName);
-
+  const { data, error } = await supabaseClient.storage.from(BUCKET_NAME).download(fileName);
   if (error) {
     console.error(error);
-    return showTronModal("Download failed!");
+    return showTronModal("Download failed!⚠️");
   }
 
   const url = URL.createObjectURL(data);
@@ -120,7 +162,7 @@ async function downloadFile(fileName) {
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
-  showTronModal("Download started!");
+  showTronModal("Download started!🌌");
 }
 
 // Tron popup
@@ -132,19 +174,16 @@ function showTronModal(message) {
   setTimeout(() => modal.remove(), 2000);
 }
 
-// Load files initially
-// Wait for page load
-loadFiles();
+// Loader timing
 window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
-
-  // Ensure loader is fully visible first
   loader.style.opacity = "1";
   loader.style.visibility = "visible";
-
-  // Now wait full 5 seconds before hiding
   setTimeout(() => {
     loader.style.opacity = "0";
     loader.style.visibility = "hidden";
-  }, 5000);
+  }, 5000); // 5 seconds
 });
+
+// Load files initially
+loadFiles();
