@@ -106,7 +106,7 @@ startUpload.addEventListener("click", async () => {
       formData.append("cacheControl", "3600");
       formData.append("file", file);
 
-      xhr.open("POST", `${SUPABASE_URL}/storage/v1/object/${BUCKET_NAME}/${Date.now()}_${file.name}`);
+      xhr.open("POST", `${SUPABASE_URL}/storage/v1/object/${BUCKET_NAME}/${file.name}`);
       xhr.setRequestHeader("apikey", SUPABASE_KEY);
       xhr.setRequestHeader("Authorization", `Bearer ${SUPABASE_KEY}`);
       xhr.send(formData);
