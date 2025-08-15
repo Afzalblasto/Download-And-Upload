@@ -10,8 +10,8 @@ body {
   content: "";
   position: fixed;
   inset: 0;
-  background: linear-gradient(transparent 31px, #00e5ff10 32px) repeat,
-              linear-gradient(90deg, transparent 31px, #00e5ff10 32px) repeat;
+  background: linear-gradient(transparent 31px, #00e5ff99 32px) repeat,
+              linear-gradient(90deg, transparent 31px, #00e5ff60 32px) repeat;
   background-size: 32px 32px;
   pointer-events: none;
 }
