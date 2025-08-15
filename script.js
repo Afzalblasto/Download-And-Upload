@@ -137,13 +137,16 @@ async function loadFiles() {
   }
 
   downloadList.innerHTML = "";
-  data.forEach(file => {
-    const btn = document.createElement("button");
-    btn.className = "btn";
-    btn.textContent = `⬇️ ${file.name}`;
-    btn.onclick = () => downloadFile(file.name);
-    downloadList.appendChild(btn);
-  });
+    // Sort files by creation date descending
+data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+data.forEach(file => {
+  const btn = document.createElement("button");
+  btn.className = "btn";
+  btn.textContent = `⬇️ ${file.name}`;
+  btn.onclick = () => downloadFile(file.name);
+  downloadList.appendChild(btn);
+});
 }
 
 // Download file
