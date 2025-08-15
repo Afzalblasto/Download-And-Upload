@@ -56,6 +56,49 @@ startUpload.addEventListener("click", async () => {
       return;
     }
   }
+  startUpload.addEventListener("click", async () => {
+  if (!fileInput.files.length) return showTronModal("No files selected!⚠️");
+
+  // Get existing files list
+  const { data: existingFiles, error: listError } = await supabaseClient
+    .storage
+    .from(BUCKET_NAME)
+    .list();
+
+  if (listError) {
+    console.error(listError);
+    return showTronModal("Error checking existing files!⚠️");
+  }
+
+  const existingNames = existingFiles.map(file => file.name.toLowerCase());
+
+  // Check for duplicates
+  for (const file of fileInput.files) {
+    if (existingNames.includes(file.name.toLowerCase())) {
+      return showTronModal(`"${file.name}" already exists!⚠️ Upload blocked.`);
+    }
+  }
+
+  // Proceed with upload
+  for (const file of fileInput.files) {
+    const { error } = await supabaseClient.storage
+      .from(BUCKET_NAME)
+      .upload(file.name, file, {
+        cacheControl: "3600",
+        upsert: false
+      });
+
+    if (error) {
+      console.error(error);
+      return showTronModal("Upload failed!⚠️");
+    }
+  }
+
+  showTronModal("Files uploaded!🌌");
+  fileInput.value = "";
+  fileList.innerHTML = "";
+  loadFiles();
+});
 
   // Create progress container
   const progressContainer = document.createElement("div");
