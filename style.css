@@ -171,3 +171,23 @@ footer {
   background: #00e5ff;
   color: black;
 }
+#blasterGlow{
+  animation: blasterGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes blasterGlow{
+  0%,100%{
+    color:#00e5ff; /* cyan */
+    text-shadow:
+      0 0 6px #00e5ff,
+      0 0 16px #00e5ff,
+      0 0 32px #00e5ff;
+  }
+  50%{
+    color:#ffd54a; /* yellow */
+    text-shadow:
+      0 0 6px #ffd54a,
+      0 0 16px #ffd54a,
+      0 0 32px #ffd54a;
+  }
+}
