@@ -28,6 +28,13 @@ body {
   filter: drop-shadow(0 0 4px yellow) drop-shadow(0 0 10px yellow);
   animation: glowPulse 1.2s ease-in-out infinite, shake 0.4s ease-in-out infinite alternate;
 }
+/* Loader SVG size */
+#loader svg {
+  width: 200px;   /* fixed medium size */
+  height: auto;
+  max-width: 50vw;
+  max-height: 50vh;
+}
 @keyframes glowPulse {
   0%, 100% { stroke: yellow; }
   50% { stroke: black; filter: drop-shadow(0 0 8px black); }
