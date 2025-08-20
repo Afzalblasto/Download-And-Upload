@@ -198,3 +198,4 @@ footer {
       0 0 32px #ffd54a;
   }
 }
+.file-list { display: grid; gap: 8px; }
