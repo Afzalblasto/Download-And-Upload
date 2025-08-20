@@ -131,24 +131,6 @@ let uploadedBytes = 0;
   loadFiles();
 });
   
-// Load files from Supabase (root of bucket)
-async function loadFiles() {
-  const { data, error } = await supabaseClient
-    .storage.from(BUCKET_NAME)
-    .list("", {
-      limit: 100,
-      offset: 0,
-    });
-
-  if (error) {
-    console.error(error);
-    return;
-  }
-
-  if (!data || !data.length) {
-    downloadList.innerHTML = "<em>No files listed yet.</em>";
-    return;
-  }
 
   // Sort safely: prefer updated_at/created_at if present, else by name
   data.sort((a, b) => {
@@ -172,7 +154,48 @@ async function loadFiles() {
     btn.onclick = () => downloadFile(file.name);
 
     item.appendChild(nameSpan);
-    item.appendChild(btn);
+    item.appendChild(btn// Load files from Supabase (root of bucket)
+async function loadFiles() {
+  const { data, error } = await supabaseClient
+    .storage.from(BUCKET_NAME)
+    .list("", {
+      limit: 100,
+      offset: 0,
+    });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  if (!data || !data.length) {
+    downloadList.innerHTML = "<em>No files listed yet.</em>";
+    return;
+  }
+
+  // Sort files (newest first if available, else by name)
+  data.sort((a, b) => {
+    if (a.updated_at && b.updated_at) {
+      return new Date(b.updated_at) - new Date(a.updated_at);
+    }
+    return a.name.localeCompare(b.name);
+  });
+
+  // Render file list with clickable neon filenames
+  downloadList.innerHTML = "";
+  data.forEach((file) => {
+    const item = document.createElement("div");
+    item.className = "file-item";
+
+    const nameLink = document.createElement("span");
+    nameLink.textContent = file.name;
+    nameLink.className = "file-link";
+    nameLink.onclick = () => downloadFile(file.name);
+
+    item.appendChild(nameLink);
+    downloadList.appendChild(item);
+  });
+});
     downloadList.appendChild(item);
   });
 }
