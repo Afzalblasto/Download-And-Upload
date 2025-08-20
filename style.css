@@ -22,6 +22,10 @@ body {
   display: flex; justify-content: center; align-items: center;
   z-index: 99999;
   transition: opacity 0.6s ease, visibility 0.6s ease;
+  #loader {
+  opacity: 1;
+  visibility: visible;
+}
 }
 .lightning {
   stroke: yellow;
@@ -311,7 +315,14 @@ footer {
 .file-item:hover .file-name{
   color:#7df9ff;
 }
+@keyframes neonPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,255,255,0.15) inset, 0 0 6px rgba(0,255,255,0.2); }
+  50% { box-shadow: 0 0 14px rgba(0,255,255,0.25) inset, 0 0 10px rgba(0,255,255,0.3); }
+}
 
+.file-item {
+  animation: neonPulse 2.5s ease-in-out infinite;
+}
 /* a little larger on wide screens */
 @media (min-width:768px){
   #downloadList{ grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); }
