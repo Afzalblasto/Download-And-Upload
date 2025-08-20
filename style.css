@@ -274,19 +274,7 @@ footer {
   padding: 0;
 }
 
-.file-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  border: 1px solid cyan;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.4);
-  font-family: 'Orbitron', sans-serif;
-  font-size: 14px;
-  color: #00e5ff;
-  transition: 0.2s;
-}
+
 
 .file-item:hover {
   background: rgba(0, 255, 255, 0.1);
@@ -324,26 +312,3 @@ footer {
   text-shadow: 0 0 8px #00ffff, 0 0 15px #00ffff;
 }
 
-/* Clean grid container */
-#downloadList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-  margin-top: 10px;
-  list-style: none;
-  padding: 0;
-}
-
-.file-item {
-  padding: 6px 10px;
-  border: 1px solid cyan;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.4);
-  text-align: center;
-  transition: 0.2s;
-}
-
-.file-item:hover {
-  background: rgba(0, 255, 255, 0.1);
-  transform: translateY(-2px);
-}
