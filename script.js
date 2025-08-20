@@ -160,21 +160,22 @@ async function loadFiles() {
   });
 
   // Render file list with clickable neon filenames
-  downloadList.innerHTML = "";
-  data.forEach((file) => {
-    const item = document.createElement("div");
-    item.className = "file-item";
-
-    const nameLink = document.createElement("span");
-    nameLink.textContent = file.name;
-    nameLink.className = "file-link";
-    nameLink.onclick = () => downloadFile(file.name);
-
-    item.appendChild(nameLink);
-    downloadList.appendChild(item);
-  });
-}
   
+  downloadList.innerHTML = "";
+data.forEach(({ name }) => {
+  const li = document.createElement("li");
+  li.className = "file-item";
+
+  const a = document.createElement("a");
+  a.className = "file-name";
+  a.textContent = name;   // will ellipsis if too long
+  a.title = name;         // full name on long-press/hover
+  a.href = "javascript:void(0)";
+  a.addEventListener("click", () => downloadFile(name));
+
+  li.appendChild(a);
+  downloadList.appendChild(li);
+});
 
 // Download file
 async function downloadFile(fileName) {
