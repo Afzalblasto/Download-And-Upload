@@ -52,10 +52,10 @@ startUpload.addEventListener("click", async () => {
     return showTronModal("No files selected!⚠️");
 
   // 🔑 Ask for upload password
-  const uploadPass = prompt("Enter upload password:");
-  if (uploadPass !== "ICHIGODUZUMAKI") {   // change this secret
-    return showTronModal("Wrong upload password!⚠️");
-  }
+  const uploadPass = await askUploadPassword();
+if (uploadPass !== "ICHIGODUZUMAKI") {
+  return showTronModal("Wrong upload password!⚠️");
+}
 
   const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
 
@@ -192,7 +192,28 @@ function showTronModal(message) {
   document.body.appendChild(modal);
   setTimeout(() => modal.remove(), 2000);
 }
+// Custom Tron Password Modal
+async function askUploadPassword() {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("tronPasswordModal");
+    const input = document.getElementById("uploadPwInput");
+    const okBtn = document.getElementById("pwOk");
+    const cancelBtn = document.getElementById("pwCancel");
 
+    modal.style.display = "flex";
+    input.value = "";
+    input.focus();
+
+    okBtn.onclick = () => {
+      modal.style.display = "none";
+      resolve(input.value);
+    };
+    cancelBtn.onclick = () => {
+      modal.style.display = "none";
+      resolve(null);
+    };
+  });
+}
 // Loader timing
 window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
