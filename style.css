@@ -309,3 +309,41 @@ footer {
   background: #00aaff;
   color: white;
 }
+/* Neon file link style */
+.file-link {
+  color: #00e5ff;
+  font-size: 12px; /* smaller text */
+  font-family: 'Orbitron', sans-serif;
+  cursor: pointer;
+  transition: 0.2s;
+  word-break: break-all; /* prevents overflow */
+}
+
+.file-link:hover {
+  color: #00ffff;
+  text-shadow: 0 0 8px #00ffff, 0 0 15px #00ffff;
+}
+
+/* Clean grid container */
+#downloadList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.file-item {
+  padding: 6px 10px;
+  border: 1px solid cyan;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  transition: 0.2s;
+}
+
+.file-item:hover {
+  background: rgba(0, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
