@@ -1,7 +1,9 @@
 // Supabase setup
+// Supabase setup
 const SUPABASE_URL = "https://qyjkopxlipnigcpojczq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_rIz5MuuqzXdOeYcvhMXt1w_9r6-si9B";
+const SUPABASE_KEY = "YOUR_NEW_ANON_PUBLIC_KEY";  // paste your new anon key here
 const BUCKET_NAME = "user-files";
+
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Elements
@@ -56,49 +58,86 @@ startUpload.addEventListener("click", async () => {
       return;
     }
   }
-  startUpload.addEventListener("click", async () => {
-  if (!fileInput.files.length) return showTronModal("No files selected!⚠️");
+  // Upload files with password protection + progress
+startUpload.addEventListener("click", async () => {
+  if (!fileInput.files.length) 
+    return showTronModal("No files selected!⚠️");
 
-  // Get existing files list
+  // 🔑 Ask for upload password
+  const uploadPass = prompt("Enter upload password:");
+  if (uploadPass !== "ICHIGODUZUMAKI") {   // change this secret
+    return showTronModal("Wrong upload password!⚠️");
+  }
+
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+
+  // Check file sizes
+  for (const file of fileInput.files) {
+    if (file.size > MAX_FILE_SIZE) {
+      return showTronModal(`"${file.name}" exceeds 50 MB limit!⚠️`);
+    }
+  }
+
+  // Check duplicates
   const { data: existingFiles, error: listError } = await supabaseClient
-    .storage
-    .from(BUCKET_NAME)
-    .list();
+    .storage.from(BUCKET_NAME).list();
 
   if (listError) {
     console.error(listError);
-    return showTronModal("Error checking existing files!⚠️");
+    return showTronModal("Error checking files!⚠️");
   }
 
-  const existingNames = existingFiles.map(file => file.name.toLowerCase());
-
-  // Check for duplicates
+  const existingNames = existingFiles.map(f => f.name.toLowerCase());
   for (const file of fileInput.files) {
     if (existingNames.includes(file.name.toLowerCase())) {
-      return showTronModal(`"${file.name}" already exists!⚠️ Upload blocked.`);
+      return showTronModal(`"${file.name}" already exists!⚠️`);
     }
   }
 
-  // Proceed with upload
+  // Progress bar
+  const progressContainer = document.createElement("div");
+  progressContainer.style = `
+    position:fixed;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:80%;height:20px;background:rgba(0,0,0,0.5);
+    border:2px solid cyan;border-radius:10px;
+    overflow:hidden;z-index:9999;`;
+  const progressFill = document.createElement("div");
+  progressFill.style = "height:100%;width:0%;background:cyan;";
+  progressContainer.appendChild(progressFill);
+  document.body.appendChild(progressContainer);
+
+  let uploaded = 0;
   for (const file of fileInput.files) {
-    const { error } = await supabaseClient.storage
-      .from(BUCKET_NAME)
-      .upload(file.name, file, {
-        cacheControl: "3600",
-        upsert: false
-      });
-
-    if (error) {
-      console.error(error);
-      return showTronModal("Upload failed!⚠️");
-    }
+    await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.upload.onprogress = e => {
+        if (e.lengthComputable) {
+          const percent = ((uploaded + e.loaded / e.total) / fileInput.files.length) * 100;
+          progressFill.style.width = percent + "%";
+        }
+      };
+      xhr.onload = () => { uploaded++; resolve(); };
+      xhr.onerror = () => reject(new Error("Upload error"));
+      const formData = new FormData();
+      formData.append("file", file);
+      xhr.open("POST", `${SUPABASE_URL}/storage/v1/object/${BUCKET_NAME}/${file.name}`);
+      xhr.setRequestHeader("apikey", SUPABASE_KEY);
+      xhr.setRequestHeader("Authorization", `Bearer ${SUPABASE_KEY}`);
+      xhr.send(formData);
+    }).catch(err => {
+      console.error(err);
+      showTronModal("Upload failed!⚠️");
+    });
   }
 
+  document.body.removeChild(progressContainer);
   showTronModal("Files uploaded!🌌");
   fileInput.value = "";
   fileList.innerHTML = "";
   loadFiles();
 });
+  
 
   // Create progress container
   const progressContainer = document.createElement("div");
