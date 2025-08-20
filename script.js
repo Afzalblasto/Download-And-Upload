@@ -229,13 +229,10 @@ async function askUploadPassword() {
 // Loader timing
 window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
-  loader.style.opacity = "1";
-  loader.style.visibility = "visible";
   setTimeout(() => {
     loader.style.opacity = "0";
     loader.style.visibility = "hidden";
-  }, 5000); // 5 seconds
+  }, 5000); // 5 seconds max
 });
-
 // Load files initially
 loadFiles();
