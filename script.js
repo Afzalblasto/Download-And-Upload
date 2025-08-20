@@ -1,7 +1,7 @@
 
 // Supabase setup
 const SUPABASE_URL = "https://qyjkopxlipnigcpojczq.supabase.co";
-const SUPABASE_KEY = "YOUR_NEW_ANON_PUBLIC_KEY";  // paste your new anon key here
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5amtvcHhsaXBuaWdjcG9qY3pxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxNzE0NDMsImV4cCI6MjA3MDc0NzQ0M30.7wD7aHeZrV81xAuuicjr9T1LLYXVDd6-9RoKu0T07Y0";  // paste your new anon key here
 const BUCKET_NAME = "user-files";
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
