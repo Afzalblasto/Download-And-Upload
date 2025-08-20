@@ -132,29 +132,7 @@ let uploadedBytes = 0;
 });
   
 
-  // Sort safely: prefer updated_at/created_at if present, else by name
-  data.sort((a, b) => {
-    if (a.updated_at && b.updated_at) {
-      return new Date(b.updated_at) - new Date(a.updated_at); // newest first
-    }
-    return a.name.localeCompare(b.name); // fallback by name
-  });
-
-  // Render file list in Tron grid style
-  downloadList.innerHTML = "";
-  data.forEach((file) => {
-    const item = document.createElement("div");
-    item.className = "file-item";
-
-    const nameSpan = document.createElement("span");
-    nameSpan.textContent = file.name;
-
-    const btn = document.createElement("button");
-    btn.textContent = "Download";
-    btn.onclick = () => downloadFile(file.name);
-
-    item.appendChild(nameSpan);
-    item.appendChild(btn// Load files from Supabase (root of bucket)
+  // Load files from Supabase (root of bucket)
 async function loadFiles() {
   const { data, error } = await supabaseClient
     .storage.from(BUCKET_NAME)
@@ -193,9 +171,6 @@ async function loadFiles() {
     nameLink.onclick = () => downloadFile(file.name);
 
     item.appendChild(nameLink);
-    downloadList.appendChild(item);
-  });
-});
     downloadList.appendChild(item);
   });
 }
