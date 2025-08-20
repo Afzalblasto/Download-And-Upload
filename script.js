@@ -180,17 +180,20 @@ data.sort((a, b) => {
   return a.name.localeCompare(b.name); // fallback by name
 });
 
-// Render file list
+// Render file list in Tron style (click name to download)
 downloadList.innerHTML = "";
-data.forEach(file => {
-  const li = document.createElement("li");
-  li.innerHTML = `
-    ${file.name} 
-    <button onclick="downloadFile('${file.name}')">⬇️ Download</button>
-  `;
-  downloadList.appendChild(li);
+data.forEach((file) => {
+  const item = document.createElement("div");
+  item.className = "file-item";
+
+  const nameLink = document.createElement("span");
+  nameLink.textContent = file.name;
+  nameLink.className = "file-link";
+  nameLink.onclick = () => downloadFile(file.name);
+
+  item.appendChild(nameLink);
+  downloadList.appendChild(item);
 });
-}
 
 // Download file
 async function downloadFile(fileName) {
