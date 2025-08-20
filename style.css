@@ -265,6 +265,7 @@ footer {
   to {opacity: 1; transform: scale(1);}
 }
 /* Download files grid */
+
 #downloadList {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -274,37 +275,27 @@ footer {
   padding: 0;
 }
 
-
+.file-item {
+  padding: 8px 12px;
+  border: 1px solid cyan;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  text-align: center;   /* Centered text */
+  transition: 0.2s;
+}
 
 .file-item:hover {
   background: rgba(0, 255, 255, 0.1);
   transform: translateY(-2px);
 }
 
-.file-item button {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  border: none;
-  background: cyan;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.file-item button:hover {
-  background: #00aaff;
-  color: white;
-}
-/* Neon file link style */
 .file-link {
   color: #00e5ff;
-  font-size: 12px; /* smaller text */
+  font-size: 12px;
   font-family: 'Orbitron', sans-serif;
   cursor: pointer;
   transition: 0.2s;
-  word-break: break-all; /* prevents overflow */
+  word-break: break-all; /* Prevents long names breaking layout */
 }
 
 .file-link:hover {
