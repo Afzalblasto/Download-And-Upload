@@ -199,3 +199,68 @@ footer {
   }
 }
 .file-list { display: grid; gap: 8px; }
+/* Tron Modal Background */
+.tron-modal-bg {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Tron Modal Box */
+.tron-modal-box {
+  background: black;
+  border: 2px solid cyan;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: cyan;
+  font-family: "Orbitron", sans-serif;
+  box-shadow: 0 0 20px cyan;
+  animation: fadeIn 0.3s ease-in-out;
+  width: 300px;
+}
+
+.tron-modal-box h3 {
+  margin-bottom: 15px;
+}
+
+.tron-modal-box input {
+  width: 90%;
+  padding: 8px;
+  margin: 10px 0;
+  background: black;
+  border: 1px solid cyan;
+  color: cyan;
+  text-align: center;
+}
+
+.tron-btns {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.tron-btns button {
+  background: black;
+  border: 1px solid cyan;
+  color: cyan;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tron-btns button:hover {
+  background: cyan;
+  color: black;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.9);}
+  to {opacity: 1; transform: scale(1);}
+}
