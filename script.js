@@ -1,4 +1,4 @@
-// Supabase setup
+
 // Supabase setup
 const SUPABASE_URL = "https://qyjkopxlipnigcpojczq.supabase.co";
 const SUPABASE_KEY = "YOUR_NEW_ANON_PUBLIC_KEY";  // paste your new anon key here
@@ -45,19 +45,7 @@ fileInput.addEventListener("change", () => {
   });
 });
 
-// Upload files to Supabase with progress bar
-startUpload.addEventListener("click", async () => {
-  if (!fileInput.files.length) return showTronModal("No files selected!⚠️");
 
-  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
-
-  // Check file sizes
-  for (const file of fileInput.files) {
-    if (file.size > MAX_FILE_SIZE) {
-      showTronModal(`"${file.name}" exceeds 50 MB limit!⚠️`);
-      return;
-    }
-  }
   // Upload files with password protection + progress
 startUpload.addEventListener("click", async () => {
   if (!fileInput.files.length) 
@@ -139,95 +127,41 @@ startUpload.addEventListener("click", async () => {
 });
   
 
-  // Create progress container
-  const progressContainer = document.createElement("div");
-  progressContainer.style.position = "fixed";
-  progressContainer.style.top = "50%";
-  progressContainer.style.left = "50%";
-  progressContainer.style.transform = "translate(-50%, -50%)";
-  progressContainer.style.width = "80%";
-  progressContainer.style.height = "20px";
-  progressContainer.style.background = "rgba(0,0,0,0.5)";
-  progressContainer.style.border = "2px solid cyan";
-  progressContainer.style.borderRadius = "10px";
-  progressContainer.style.overflow = "hidden";
-  progressContainer.style.zIndex = "9999";
-
-  const progressFill = document.createElement("div");
-  progressFill.style.height = "100%";
-  progressFill.style.width = "0%";
-  progressFill.style.background = "cyan";
-  progressContainer.appendChild(progressFill);
-  document.body.appendChild(progressContainer);
-
-  let uploadedFiles = 0;
-  for (const file of fileInput.files) {
-    // Convert file to Blob for tracking progress
-    await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.upload.onprogress = function (event) {
-        if (event.lengthComputable) {
-          const percent = ((uploadedFiles + event.loaded / event.total) / fileInput.files.length) * 100;
-          progressFill.style.width = percent + "%";
-        }
-      };
-
-      xhr.onload = async function () {
-        if (xhr.status === 200 || xhr.status === 201) {
-          uploadedFiles++;
-          resolve();
-        } else {
-          reject(new Error("Upload failed⚠️"));
-        }
-      };
-
-      xhr.onerror = () => reject(new Error("Upload error⚠️"));
-
-      // Prepare request to Supabase
-      const formData = new FormData();
-      formData.append("cacheControl", "3600");
-      formData.append("file", file);
-
-      xhr.open("POST", `${SUPABASE_URL}/storage/v1/object/${BUCKET_NAME}/${file.name}`);
-      xhr.setRequestHeader("apikey", SUPABASE_KEY);
-      xhr.setRequestHeader("Authorization", `Bearer ${SUPABASE_KEY}`);
-      xhr.send(formData);
-    }).catch(err => {
-      console.error(err);
-      showTronModal("Upload failed!⚠️");
-    });
-  }
-
-  document.body.removeChild(progressContainer);
-  showTronModal("Files uploaded!🌌");
-  fileInput.value = "";
-  fileList.innerHTML = "";
-  loadFiles();
-});
-
-// Load files from Supabase
+// Load files from Supabase (root of bucket)
 async function loadFiles() {
-  const { data, error } = await supabaseClient.storage.from(BUCKET_NAME).list();
+  const { data, error } = await supabaseClient.storage.from(BUCKET_NAME).list("", {
+    limit: 100,
+    offset: 0
+  });
+
   if (error) {
     console.error(error);
     return;
   }
 
-  if (!data.length) {
+  if (!data || !data.length) {
     downloadList.innerHTML = "<em>No files listed yet.</em>";
     return;
   }
 
-  downloadList.innerHTML = "";
-    // Sort files by creation date descending
-data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  
+  // Sort safely: prefer updated_at/created_at if present, else by name
+data.sort((a, b) => {
+  if (a.updated_at && b.updated_at) {
+    return new Date(b.updated_at) - new Date(a.updated_at); // newest first
+  }
+  return a.name.localeCompare(b.name); // fallback by name
+});
 
+// Render file list
+downloadList.innerHTML = "";
 data.forEach(file => {
-  const btn = document.createElement("button");
-  btn.className = "btn";
-  btn.textContent = `⬇️ ${file.name}`;
-  btn.onclick = () => downloadFile(file.name);
-  downloadList.appendChild(btn);
+  const li = document.createElement("li");
+  li.innerHTML = `
+    ${file.name} 
+    <button onclick="downloadFile('${file.name}')">⬇️ Download</button>
+  `;
+  downloadList.appendChild(li);
 });
 }
 
