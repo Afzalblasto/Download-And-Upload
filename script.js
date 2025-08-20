@@ -94,18 +94,23 @@ if (uploadPass !== "ICHIGODUZUMAKI") {
   progressFill.style = "height:100%;width:0%;background:cyan;";
   progressContainer.appendChild(progressFill);
   document.body.appendChild(progressContainer);
-
+  let totalSize = Array.from(fileInput.files).reduce((sum, f) => sum + f.size, 0);
+let uploadedBytes = 0;
   let uploaded = 0;
   for (const file of fileInput.files) {
     await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
-          const percent = ((uploaded + e.loaded / e.total) / fileInput.files.length) * 100;
+          const percent = ((uploadedBytes + e.loaded) / totalSize) * 100;
           progressFill.style.width = percent + "%";
         }
       };
-      xhr.onload = () => { uploaded++; resolve(); };
+      xhr.onload = () => { 
+  uploadedBytes += file.size; 
+  uploaded++; 
+  resolve(); 
+};
       xhr.onerror = () => reject(new Error("Upload error"));
       const formData = new FormData();
       formData.append("file", file);
@@ -172,28 +177,6 @@ async function loadFiles() {
   });
 }
   
-  // Sort safely: prefer updated_at/created_at if present, else by name
-data.sort((a, b) => {
-  if (a.updated_at && b.updated_at) {
-    return new Date(b.updated_at) - new Date(a.updated_at); // newest first
-  }
-  return a.name.localeCompare(b.name); // fallback by name
-});
-
-// Render file list in Tron style (click name to download)
-downloadList.innerHTML = "";
-data.forEach((file) => {
-  const item = document.createElement("div");
-  item.className = "file-item";
-
-  const nameLink = document.createElement("span");
-  nameLink.textContent = file.name;
-  nameLink.className = "file-link";
-  nameLink.onclick = () => downloadFile(file.name);
-
-  item.appendChild(nameLink);
-  downloadList.appendChild(item);
-});
 
 // Download file
 async function downloadFile(fileName) {
