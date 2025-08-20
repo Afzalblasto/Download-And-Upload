@@ -264,42 +264,56 @@ footer {
   from {opacity: 0; transform: scale(0.9);}
   to {opacity: 1; transform: scale(1);}
 }
-/* Download files grid */
-
-#downloadList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  margin-top: 10px;
-  list-style: none;
-  padding: 0;
+/* ⬇ minimal Tron pills for the download list */
+#downloadList{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+  gap:8px;
+  margin-top:8px;
+  padding:0;
+  list-style:none;
 }
 
-.file-item {
-  padding: 8px 12px;
-  border: 1px solid cyan;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.4);
-  text-align: center;   /* Centered text */
-  transition: 0.2s;
+.file-item{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 10px;
+  min-height:36px;
+  border:1px solid rgba(0,255,255,0.7);
+  border-radius:12px;
+  background:rgba(0,20,30,0.35);
+  box-shadow:0 0 10px rgba(0,255,255,0.15) inset,
+             0 0 6px rgba(0,255,255,0.2);
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
 }
 
-.file-item:hover {
-  background: rgba(0, 255, 255, 0.1);
-  transform: translateY(-2px);
+.file-name{
+  display:block;
+  max-width:100%;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-family:'Orbitron', sans-serif;
+  font-size:12px;
+  letter-spacing:.3px;
+  color:#00e5ff;
+  text-decoration:none;
 }
 
-.file-link {
-  color: #00e5ff;
-  font-size: 12px;
-  font-family: 'Orbitron', sans-serif;
-  cursor: pointer;
-  transition: 0.2s;
-  word-break: break-all; /* Prevents long names breaking layout */
+.file-item:hover{
+  transform:translateY(-1px);
+  border-color:#00e5ff;
+  box-shadow:0 0 16px rgba(0,255,255,0.25),
+             inset 0 0 10px rgba(0,255,255,0.15);
 }
 
-.file-link:hover {
-  color: #00ffff;
-  text-shadow: 0 0 8px #00ffff, 0 0 15px #00ffff;
+.file-item:hover .file-name{
+  color:#7df9ff;
 }
 
+/* a little larger on wide screens */
+@media (min-width:768px){
+  #downloadList{ grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); }
+  .file-item{ min-height:42px; }
+}
