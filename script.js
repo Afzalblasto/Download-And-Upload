@@ -56,6 +56,14 @@ startUpload.addEventListener("click", async () => {
   }
 
   //size check here
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+
+  // Check size
+  for (const file of fileInput.files) {
+    if (file.size > MAX_FILE_SIZE) {
+      return showTronModal(`"${file.name}" exceeds 50 MB limit!⚠️`);
+    }
+  }
 
   // Check duplicates
   const { data: existingFiles, error: listError } = await supabaseClient.storage
