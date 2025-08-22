@@ -55,7 +55,6 @@ startUpload.addEventListener("click", async () => {
     return showTronModal("Wrong upload password!⚠️");
   }
 
-  //size check here
   const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
 
   // Check size
@@ -243,6 +242,12 @@ window.addEventListener("load", () => {
     loader.style.visibility = "hidden";
   }, 5000);
 });
-
+// Accent Toggle (cyan <-> magenta)
+const modeToggle = document.getElementById("modeToggle");
+if (modeToggle) {
+  modeToggle.addEventListener("change", () => {
+    document.body.classList.toggle("alt-accent", modeToggle.checked);
+  });
+}
 // Initial file load
 loadFiles();
